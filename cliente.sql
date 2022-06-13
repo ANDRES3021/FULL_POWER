@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS cliente (id_cliente INT PRIMARY KEY, name VARCHAR(50));
