@@ -1,0 +1,5 @@
+Mysql == 8.
+python == 3.8.10
+flask 2 == 2.1.2
+pip install -U Flask-SQLAlchemy == 2.5.1
+mysqlclient == 2.1.0
