@@ -39,7 +39,7 @@ def addclient_route():
         
         return redirect('/')
     
-@app.route('/new_supplier', methods=['POST'])
+@app.route('/new_supplier', methods=['POST', 'GET'])
 def addsupp_route():
     """ new supp """
     if mysql:
@@ -49,16 +49,27 @@ def addsupp_route():
         print("Connection Failed!")
 
     if request.method == 'POST':
-        
         nit = request.form['nit']
         name = request.form['name']
         location = request.form['location']
         cursor.execute('INSERT INTO proveedor (id_proveedor, name, ubicacion) VALUES(%s, %s, %s)',
         (nit, name, location))
-        mysql.connection.commit()
-        
-        return redirect('/')
+        ultimo_id = ('SELECT MAX(id_proveedor) AS id FROM proveedor')
+        cursor.execute(ultimo_id)
+        de_datos = cursor.fetchall()
+        str = ''
 
+        # Use for loop to convert tuple to string.
+        for item in de_datos:
+            str = str + item
+
+        print(str, 'aqui esta')
+        cursor.execute('INSERT INTO movimiento(proveedor_id, fecha) VALUES(de_datos, curdate()',(str))
+                
+        mysql.connection.commit()
+            
+            
+        return redirect('/')
 
 @app.route('/new_product', methods=['POST'])
 def addproduct_route():
