@@ -33,8 +33,10 @@ def addclient_route():
         
         cedula = request.form['cedula']
         name = request.form['name']
-        cursor.execute('INSERT INTO cliente (id_cliente, name) VALUES(%s, %s)',
-        (cedula, name))
+        cursor.execute('INSERT INTO cliente (name) VALUES(%s)',
+        (name))
+        # esta query nos permite relacionar llaves foraneas
+        cursor.execute('INSERT INTO movimiento (cliente_id) SELECT MAX(id_cliente) FROM cliente')
         mysql.connection.commit()
         
         return redirect('/')
@@ -49,22 +51,14 @@ def addsupp_route():
         print("Connection Failed!")
 
     if request.method == 'POST':
-        nit = request.form['nit']
+        
         name = request.form['name']
         location = request.form['location']
-        cursor.execute('INSERT INTO proveedor (id_proveedor, name, ubicacion) VALUES(%s, %s, %s)',
-        (nit, name, location))
-        ultimo_id = ('SELECT MAX(id_proveedor) AS id FROM proveedor')
-        cursor.execute(ultimo_id)
-        de_datos = cursor.fetchall()
-        str = ''
-
-        # Use for loop to convert tuple to string.
-        for item in de_datos:
-            str = str + item
-
-        print(str, 'aqui esta')
-        cursor.execute('INSERT INTO movimiento(proveedor_id, fecha) VALUES(de_datos, curdate()',(str))
+        nit = request.form['nit']
+        cursor.execute('INSERT INTO proveedor (name, ubicacion,nit) VALUES(%s, %s, %s)',
+        (name, location, nit))
+        
+        cursor.execute('INSERT INTO movimiento (proveedor_id) SELECT MAX(id_proveedor) FROM proveedor')
                 
         mysql.connection.commit()
             
@@ -83,11 +77,14 @@ def addproduct_route():
     if request.method == 'POST':
         
         cod_prod = request.form['codigo_producto']
-        ser_prod = request.form['serial_producto']
+        ser_prod = request.form['cantidad']
         tipo = request.form['tipo']
         precio = request.form['precio']
         cursor.execute('INSERT INTO producto(codigo_producto, serial_producto, tipo, precio) VALUES(%s, %s, %s, %s)',
         (cod_prod, ser_prod, tipo, precio))
+        
+        cursor.execute('INSERT INTO producto (movimiento_id) SELECT MAX(id_movimiento) FROM movimiento')
+        
         mysql.connection.commit()
         
         return redirect('/')
