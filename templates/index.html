@@ -1,6 +1,7 @@
 <form action ="/new_client" method="POST">
     <h1>CLIENTE</h1>
     <input type="text" name="name" placeholder="write your fullname"/>
+    <input type="text" name="docident" placeholder="write your identification document"/>
     <button>Save</button>
 </form>
 <form action ="/new_supplier" method="POST">
@@ -12,14 +13,11 @@
 </form>
 <form action ="/new_product" method="POST">
     <h1>PRODUCTOS</h1>
-    <input type="text" name="codigo_producto" placeholder="write code product"/>
-    <input type="text" name="cantidad" placeholder="write number of product"/>
-    <input type="text" name="tipo" placeholder="write type product"/>
-    <input type="text" name="precio" placeholder="write price product"/>
-    <button>Save</button>
-</form>
-<form action ="/new_movimiento_compra" method="POST">
-    <h1>MOVIMIENTOCOMPRA</h1>
-    <input type="text" name="proveedor_id" placeholder="write nit proveedor"/>
+   
+    <input type="text" name="quantity" placeholder="write number of product"/>
+    <input type="text" name="serial" placeholder="write serial product"/>
+    <input type="text" name="type" placeholder="write compra o venta"/>
+    <input type="text" name="price" placeholder="write price product"/>
+    <input type="text" name="descrpp" placeholder="write description product"/>
     <button>Save</button>
 </form>

@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'adminpwd'
-app.config['MYSQL_DB'] = 'mi_negocio'
+app.config['MYSQL_DB'] = 'my_store'
 
 
 mysql = MySQL(app)
@@ -31,12 +31,12 @@ def addclient_route():
 
     if request.method == 'POST':
         
-        cedula = request.form['cedula']
         name = request.form['name']
-        cursor.execute('INSERT INTO cliente (name) VALUES(%s)',
-        (name))
+        doc_ident = request.form['docident']
+        cursor.execute('INSERT INTO client(name, doc_identify ) VALUES(%s, %s)',
+        (name, doc_ident))
         # esta query nos permite relacionar llaves foraneas
-        cursor.execute('INSERT INTO movimiento (cliente_id) SELECT MAX(id_cliente) FROM cliente')
+        cursor.execute('INSERT INTO mov (client_id) SELECT MAX(id_client) FROM client')
         mysql.connection.commit()
         
         return redirect('/')
@@ -55,17 +55,17 @@ def addsupp_route():
         name = request.form['name']
         location = request.form['location']
         nit = request.form['nit']
-        cursor.execute('INSERT INTO proveedor (name, ubicacion,nit) VALUES(%s, %s, %s)',
+        cursor.execute('INSERT INTO supplier (name, address_sup, NIT) VALUES(%s, %s, %s)',
         (name, location, nit))
         
-        cursor.execute('INSERT INTO movimiento (proveedor_id) SELECT MAX(id_proveedor) FROM proveedor')
+        cursor.execute('INSERT INTO mov (supplier_id) SELECT MAX(id_supplier) FROM supplier')
                 
         mysql.connection.commit()
             
             
         return redirect('/')
 
-@app.route('/new_product', methods=['POST'])
+@app.route('/new_product', methods=['POST', 'GET'])
 def addproduct_route():
     """ new product """
     if mysql:
@@ -76,14 +76,15 @@ def addproduct_route():
 
     if request.method == 'POST':
         
-        cod_prod = request.form['codigo_producto']
-        ser_prod = request.form['cantidad']
-        tipo = request.form['tipo']
-        precio = request.form['precio']
-        cursor.execute('INSERT INTO producto(codigo_producto, serial_producto, tipo, precio) VALUES(%s, %s, %s, %s)',
-        (cod_prod, ser_prod, tipo, precio))
+        quantity = request.form['quantity']
+        ser_prod = request.form['serial']
+        typep = request.form['type']
+        precio = request.form['price']
+        descrpp = request.form['descrpp']
+        cursor.execute('INSERT INTO product (quantity, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
+        (quantity,ser_prod, typep, precio, descrpp))
         
-        cursor.execute('INSERT INTO producto (movimiento_id) SELECT MAX(id_movimiento) FROM movimiento')
+        cursor.execute('INSERT INTO product(mov_id) SELECT MAX(id_mov) FROM mov')
         
         mysql.connection.commit()
         
