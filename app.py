@@ -74,21 +74,19 @@ def addproduct_route():
     else:
         print("Connection Failed!")
 
-    if request.method == 'POST':
+    # if request.method == 'POST':
         
-        quantity = request.form['quantity']
-        ser_prod = request.form['serial']
-        typep = request.form['type']
-        precio = request.form['price']
-        descrpp = request.form['descrpp']
-        cursor.execute('INSERT INTO product (quantity, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
-        (quantity,ser_prod, typep, precio, descrpp))
-        
-        cursor.execute('INSERT INTO product(mov_id) SELECT MAX(id_mov) FROM mov')
-        
-        mysql.connection.commit()
-        
-        return redirect('/')
+    quantity = request.form['quantity']
+    ser_prod = request.form['serial']
+    typep = request.form['type']
+    precio = request.form['price']
+    descrpp = request.form['descrpp']
+    cursor.execute('INSERT INTO product (quantity, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
+    (quantity,ser_prod, typep, precio, descrpp))
+    cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
+    mysql.connection.commit()
+    
+    return redirect('/')
     
 
 @app.route('/edit')
