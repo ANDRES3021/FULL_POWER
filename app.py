@@ -38,7 +38,7 @@ def addclient_route():
         cursor.execute('INSERT INTO mov (client_id) SELECT MAX(id_client) FROM client')
         mysql.connection.commit()
         
-        return redirect('form.html')
+    return render_template('form.html')
     
 @app.route('/new_supplier', methods=['POST', 'GET'])
 def addsupp_route():
@@ -62,7 +62,7 @@ def addsupp_route():
         mysql.connection.commit()
             
             
-        return redirect('/')
+    return redirect('/')
 
 @app.route('/new_product', methods=['POST', 'GET'])
 def addproduct_route():
@@ -85,7 +85,7 @@ def addproduct_route():
     cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
     mysql.connection.commit()
     
-    return redirect('/')
+    return render_template('form.html')
     
 
 @app.route('/edit')
