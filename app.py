@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import render_template, request, redirect
 from flask import Flask
 from flask_mysqldb import MySQL
@@ -20,7 +19,7 @@ def index_route():
     """ inicio """
     return render_template('index.html')
 
-@app.route('/new_client', methods=['POST'])
+@app.route('/new_client', methods=['POST', 'GET'])
 def addclient_route():
     """ new client """
     if mysql:
@@ -39,7 +38,7 @@ def addclient_route():
         cursor.execute('INSERT INTO mov (client_id) SELECT MAX(id_client) FROM client')
         mysql.connection.commit()
         
-        return redirect('/')
+        return redirect('form.html')
     
 @app.route('/new_supplier', methods=['POST', 'GET'])
 def addsupp_route():
