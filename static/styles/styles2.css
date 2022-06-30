@@ -14,14 +14,15 @@ body {
 .wrap {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: right;
+  padding: 280px;
 }
 
 .wrap-texto {
   color: azure;
   text-align: center;
 
-  width: 40%;
+  width: 35%;
   font-size: x-large;
 }
 
