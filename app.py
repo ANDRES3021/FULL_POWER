@@ -20,7 +20,7 @@ def index_route():
     """ inicio """
     return render_template('index.html')
 
-@app.route('/new_client', methods=['POST'])
+@app.route('/new_client', methods=['POST', 'GET'])
 def addclient_route():
     """ new client """
     if mysql:
@@ -38,8 +38,11 @@ def addclient_route():
         # esta query nos permite relacionar llaves foraneas
         cursor.execute('INSERT INTO mov (client_id) SELECT MAX(id_client) FROM client')
         mysql.connection.commit()
-        
-        return redirect('/')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT product.desc_product, product.price, product.serial_product, client.name, mov.date_mov FROM product INNER JOIN mov ON product.mov_id = mov.id_mov INNER JOIN client ON client.id_client = mov.client_id')
+    data = cursor.fetchall()
+    print(data)   
+    return render_template('formclient.html',data=data)
     
 @app.route('/new_supplier', methods=['POST', 'GET'])
 def addsupp_route():
@@ -104,4 +107,4 @@ def delete_route():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=3000)
