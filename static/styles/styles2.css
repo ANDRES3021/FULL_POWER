@@ -6,36 +6,51 @@
 body {
   margin: 0;
   padding: 0;
-  background: url(imagenes/fondo.jpg);   
-  background-size: 100%;
   font-family: 'League Spartan', sans-serif;
 }
 
+.contenedor {
+  width: 70%;
+  margin-left: 17%;
+  margin-top: 2%;
+  height: 88vh;
+  background: url(imagenes/tienda.jpg);
+  background-repeat: no-repeat;
+  background-size: 90%;
+}
+
 .wrap {
+  width: 80%;
+  height: 5vh;
+  margin-left: -7.5%;
+  margin-top: 37%;
+  position: absolute;
   display: flex;
   align-items: center;
-  justify-content: right;
-  padding: 280px;
+  justify-content: center;
+  padding: 1% 2% 1% 2%;
+  background-color: rgba(55, 27, 88, 0.494);
+  border-radius: 100px;
 }
 
 .wrap-texto {
-  color: azure;
+  color: rgb(76, 53, 117);
   text-align: center;
-
-  width: 35%;
+  width: 100%;
   font-size: x-large;
 }
 
 footer {
-  background-color: rgba(255, 255, 255, 0.961);
+  background-color: rgb(76, 53, 117);
   padding: 1em 0;
   text-align: center;
   position: absolute;
   bottom: 0;
   width: 100%;
+  color: white;
 }
 
-h1,h2,h4 
+h1,h2,h3,h4 
 {
   color: rgba(255, 255, 255, 0.961);
   font-family: "Courier New", Courier, monospace;

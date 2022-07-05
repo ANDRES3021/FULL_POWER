@@ -15,10 +15,37 @@ app.config['MYSQL_DB'] = 'my_store'
 mysql = MySQL(app)
 
 #metodo get
-@app.route('/')
+@app.route('/index.html')
 def index_route():
-    """ inicio """
+    """ Index """
     return render_template('index.html')
+
+@app.route('/formcompra.html')
+def compra_route():
+    """ Compra """
+    return render_template('formcompra.html')
+
+@app.route('/formventas.html')
+def ventas_route():
+    """ Ventas """
+    return render_template('formventas.html')
+
+@app.route('/forminventario.html')
+def inventario_route():
+    """ Inventario """
+    return render_template('forminventario.html')
+
+@app.route('/formventasdeldia.html')
+def venta_dia_route():
+    """ Ventas del dia """
+    return render_template('formventasdeldia.html')
+
+@app.route('/formproveedores.html')
+def proveedores_route():
+    """ Proveedores """
+    return render_template('formproveedores.html')
+
+
 
 @app.route('/new_client', methods=['POST', 'GET'])
 def addclient_route():
