@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../static/styles/styles2.css">
     <link rel="stylesheet" type="text/css" href="../static/styles/css3.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/styletables.css">
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <title>My Store</title>
@@ -12,11 +13,11 @@
     <nav>
       <h3>MyStore</h3>
       <ul>
-        <li><a href="index.html">Inicio</a></li>
+        <li><a href ="/">Inicio</a></li>
         <li><a href="formcompra.html">Compra</a></li>
         <li><a href="forminventario.html">Inventario</a></li>
         <li><a href="formventasdeldia.html">Ventas del dia</a></li>
-        <li><a href="formproveedores.html">Proveedores</a></li>
+        <li><a href="/new_supplier">Proveedores</a></li>
         <li><a href="https://api.whatsapp.com/send?phone=3507473935">Contactanos</a></li>
       </ul>
     </nav>
@@ -26,11 +27,10 @@
             <input type="text" name="name" placeholder="write your fullname"/>
             <input type="text" name="docident" placeholder="write your identification document"/>
             <button>Save</button>
-            
         </form>
-        </div>
+    </div>
         <div class = "body">
-        <form action ="/new_product" method="POST">
+          <form action ="/new_product" method="POST">
             <h1>PRODUCTOS</h1>
            
             <input type="text" name="quantity" placeholder="write number of product"/>
@@ -67,6 +67,26 @@
             </tbody>
         </table>
         </div>
+              <div style="text-align:left;">
+                <table class="a" style="margin: 0 auto;">
+                    <thead>
+                        <p>INVENTARIO</p>
+                        <tr>
+                            <td>LOTE</td>
+                            <td>CANTIDAD</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d1 in data1%}
+                        <tr>
+                            <td>{{ d1.0 }}</td>
+                            <td>{{ d1.1 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+              
     <footer>
       <div>
         <h3>Administra tu negocio como un profesional!</h3>

@@ -146,3 +146,8 @@ input, select{
 
 }
 
+.information {
+  background: url("../styles/imagenes/tienda.jpg") no-repeat top center;
+  width: 100px;
+}
+

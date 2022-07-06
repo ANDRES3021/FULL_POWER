@@ -15,7 +15,7 @@ app.config['MYSQL_DB'] = 'my_store'
 mysql = MySQL(app)
 
 #metodo get
-@app.route('/index.html')
+@app.route('/')
 def index_route():
     """ Index """
     return render_template('index.html')
@@ -23,17 +23,50 @@ def index_route():
 @app.route('/formcompra.html')
 def compra_route():
     """ Compra """
-    return render_template('formcompra.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT product.desc_product, product.price, product.serial_product, supplier.name, mov.date_mov FROM product INNER JOIN mov ON product.mov_id = mov.id_mov INNER JOIN supplier ON supplier.id_supplier = mov.supplier_id')
+    data = cursor.fetchall()
+    print(data)   
+    return render_template('formcompra.html',data=data)
 
 @app.route('/formventas.html')
 def ventas_route():
     """ Ventas """
-    return render_template('formventas.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT product.desc_product, product.price, product.serial_product, client.name, mov.date_mov FROM product INNER JOIN mov ON product.mov_id = mov.id_mov INNER JOIN client ON client.id_client = mov.client_id')
+    data = cursor.fetchall()
+    print(data)
+    cursor.execute("WITH productos_vendidos AS\
+                  (SELECT id_product, serial_product\
+                  FROM consulta WHERE type_prod= 'venta'),\
+                  stock AS (SELECT *FROM consulta\
+                  WHERE(id_product, serial_product)\
+                  NOT IN (SELECT * FROM productos_vendidos))\
+                  SELECT id_product, COUNT(serial_product)\
+                  AS cantidad_productos\
+                  FROM stock GROUP BY id_product")
+    data1 = cursor.fetchall()
+    print(data1)
+    return render_template('formventas.html',data=data, data1=data1)
 
 @app.route('/forminventario.html')
 def inventario_route():
     """ Inventario """
-    return render_template('forminventario.html')
+    # venta = "venta"
+    cursor = mysql.connection.cursor()
+    venta = "venta"
+    cursor.execute("WITH productos_vendidos AS\
+                  (SELECT id_product, serial_product\
+                  FROM consulta WHERE type_prod= 'venta'),\
+                  stock AS (SELECT *FROM consulta\
+                  WHERE(id_product, serial_product)\
+                  NOT IN (SELECT * FROM productos_vendidos))\
+                  SELECT id_product, COUNT(serial_product)\
+                  AS cantidad_productos\
+                  FROM stock GROUP BY id_product")
+    data = cursor.fetchall()
+    print(data)
+    return render_template('forminventario.html',data=data)
 
 @app.route('/formventasdeldia.html')
 def venta_dia_route():
@@ -65,12 +98,9 @@ def addclient_route():
         # esta query nos permite relacionar llaves foraneas
         cursor.execute('INSERT INTO mov (client_id) SELECT MAX(id_client) FROM client')
         mysql.connection.commit()
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT product.desc_product, product.price, product.serial_product, client.name, mov.date_mov FROM product INNER JOIN mov ON product.mov_id = mov.id_mov INNER JOIN client ON client.id_client = mov.client_id')
-    data = cursor.fetchall()
-    print(data)   
-    return render_template('formclient.html',data=data)
-    
+
+    return render_template('formventas.html')
+        
 @app.route('/new_supplier', methods=['POST', 'GET'])
 def addsupp_route():
     """ new supp """
@@ -91,9 +121,8 @@ def addsupp_route():
         cursor.execute('INSERT INTO mov (supplier_id) SELECT MAX(id_supplier) FROM supplier')
                 
         mysql.connection.commit()
-            
-            
-        return redirect('/')
+      
+        return render_template('formcompra.html')
 
 @app.route('/new_product', methods=['POST', 'GET'])
 def addproduct_route():
@@ -115,8 +144,10 @@ def addproduct_route():
     (quantity,ser_prod, typep, precio, descrpp))
     cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
     mysql.connection.commit()
+    print(typep)
     
-    return redirect('/')
+    return render_template('formventas.html')
+
     
 
 @app.route('/edit')
