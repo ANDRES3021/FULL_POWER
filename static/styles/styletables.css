@@ -22,7 +22,8 @@ tr{background: #ccc;}
 }
 p {
 	margin: 20px 0; 
-    color: #ccc;
+    color: #d5cedf;
+	font-size: 25px;
     text-align: center;
 }
 
@@ -30,29 +31,73 @@ p {
 	Generic Styling, for Desktops/Laptops 
 	*/
 	table { 
-		width: 100%; 
-		border-collapse: collapse; 
+		width: 100%;
+		border-collapse: collapse;
 	}
 	/* Zebra striping */
 	tr:nth-of-type(odd) { 
-		background: #eee; 
-	}
-	th { 
-		background: #333; 
-		color: white; 
-		font-weight: bold; 
+		background: #c1acdf; 
 	}
 	td, th { 
 		padding: 6px; 
 		border: 1px solid #ccc; 
-		text-align: left; 
+		text-align: left;
+		color: rgb(255, 255, 255);
 	}
-
     table {
-        height: 200px;
-        width: 200px;
-        border: 2px solid #000;
+        height:350px;
+		justify-content: center;
+        width: 100%;
+		border-radius: 30px;
         vertical-align:top;
         text-align:right;
        }
-       
+.izq{
+	width: 25%;
+	padding-left: 70px;
+	padding-top: 50px;
+	padding-bottom: 70px;
+	margin-left: 5%;
+	float: left;
+}
+.carlitosmiamor{
+	float: left;
+	margin-left: 17%;
+	padding-top: 90px;
+}
+.carlitos{
+	float: left;
+	margin-left: 17%;
+	padding-top: 50px;
+	width: 420px;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.car2{
+	height: 270px;
+	margin-top: 65px;
+	padding-top: 0px;
+}
+.car{
+	padding-top:25px;
+}
+.cen{
+	background-color: #4C3575;
+	width: 60%;
+	margin-left: 20%;
+	margin-top: 3.5%;
+	height: 700px;
+	border-radius: 20px;
+}
+.cenn{
+	height: 670px;
+	margin-top: 4.5%;
+}
+.td{
+	text-align: center;
+	padding-left: 70px;
+	padding-right: 70px;
+}
