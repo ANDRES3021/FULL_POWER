@@ -71,14 +71,30 @@ def inventario_route():
 @app.route('/formventasdeldia.html')
 def venta_dia_route():
     """ Ventas del dia """
-    return render_template('formventasdeldia.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT product.desc_product, product.price, product.serial_product, client.name, mov.date_mov FROM product INNER JOIN mov ON product.mov_id = mov.id_mov INNER JOIN client ON client.id_client = mov.client_id')
+    data = cursor.fetchall()
+    cursor.execute("WITH productos_vendidos AS\
+                  (SELECT id_product, serial_product\
+                  FROM product WHERE type_prod= 'venta'),\
+                  stock AS (SELECT *FROM product\
+                  WHERE(id_product, serial_product)\
+                  NOT IN (SELECT * FROM productos_vendidos))\
+                  SELECT id_product, COUNT(serial_product)\
+                  AS cantidad_productos\
+                  FROM stock GROUP BY id_product")
+    data1 = cursor.fetchall()
+    return render_template('formventasdeldia.html',data=data, data1=data1)
 
 @app.route('/formproveedores.html')
 def proveedores_route():
     """ Proveedores """
-    return render_template('formproveedores.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM supplier')
+    data = cursor.fetchall()
+    print(data)
 
-
+    return render_template('formproveedores.html',data=data)
 
 @app.route('/new_client', methods=['POST', 'GET'])
 def addclient_route():
@@ -99,7 +115,7 @@ def addclient_route():
         cursor.execute('INSERT INTO mov (client_id) SELECT MAX(id_client) FROM client')
         mysql.connection.commit()
 
-    return render_template('formventas.html')
+    return redirect('formventas.html')
         
 @app.route('/new_supplier', methods=['POST', 'GET'])
 def addsupp_route():
@@ -122,7 +138,7 @@ def addsupp_route():
                 
         mysql.connection.commit()
       
-        return render_template('formcompra.html')
+        return redirect('formcompra.html')
 
 @app.route('/new_product', methods=['POST', 'GET'])
 def addproduct_route():
@@ -133,36 +149,33 @@ def addproduct_route():
     else:
         print("Connection Failed!")
 
-    # if request.method == 'POST':
+    if request.method == 'POST':
         
-    quantity = request.form['quantity']
-    ser_prod = request.form['serial']
-    typep = request.form['type']
-    precio = request.form['price']
-    descrpp = request.form['descrpp']
-    cursor.execute('INSERT INTO product (id_product, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
-    (quantity,ser_prod, typep, precio, descrpp))
-    cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
-    mysql.connection.commit()
-    print(typep)
+        quantity = request.form['quantity']
+        ser_prod = request.form['serial']
+        typep = request.form['type']
+        precio = request.form['price']
+        descrpp = request.form['descrpp']
     
-    return render_template('formventas.html')
+    if typep == "compra":
+        cursor.execute('INSERT INTO product (id_product, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
+        (quantity,ser_prod, typep, precio, descrpp))
+        cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
+        mysql.connection.commit()
+        print(typep)
 
+        return redirect('formcompra.html')
     
+    if typep == "venta":
+        cursor.execute('INSERT INTO product (id_product, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
+        (quantity,ser_prod, typep, precio, descrpp))
+        cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
+        mysql.connection.commit()
+        print(typep)
 
-@app.route('/edit')
-def edit_route():
-    """ new product """
-    
-    return "editado"
+        return redirect('formventas.html')
 
-@app.route('/delete')
-def delete_route():
-    """ new product """
-    
-    return"borrado"
-
-
+   
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+    app.run(debug=True, port=5050)

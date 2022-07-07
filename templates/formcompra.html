@@ -18,8 +18,6 @@
       <ul>
         <li><a href="/">Inicio</a></li>
         <li><a href="formventas.html">Venta</a></li>
-        <li><a href="forminventario.html">Inventario</a></li>
-        <li><a href="formventasdeldia.html">Ventas del dia</a></li>
         <li><a href="formproveedores.html">Proveedores</a></li>
         <li><a href="https://api.whatsapp.com/send?phone=3507473935">Contactanos</a></li>
       </ul>
@@ -29,9 +27,9 @@
         <div class="body">
           <form action="/new_supplier" method="POST">
             <h1>PROVEEDOR</h1>
-            <input type="text" name="nit" placeholder="write  NIT" />
-            <input type="text" name="name" placeholder="write Name" />
-            <input type="text" name="location" placeholder="write your adress" /><br><br>
+            <input type="text" name="nit" placeholder="Inserte el NIT del proveedor"/>
+            <input type="text" name="name" placeholder="Inserte nombre del proveedor"/>
+            <input type="text" name="location" placeholder="Inserte la direccion del proveedor"/><br><br>
             <button>Save</button>
           </form>
         </div>
@@ -39,11 +37,11 @@
           <form action="/new_product" class="body2" method="POST">
             <h1>PRODUCTOS</h1>
 
-            <input type="text" name="quantity" placeholder="write number of product" />
-            <input type="text" name="serial" placeholder="write serial product" />
-            <input type="text" name="type" placeholder="write compra o venta" />
-            <input type="text" name="price" placeholder="write price product" />
-            <input type="text" name="descrpp" placeholder="write description product" /><br><br>
+            <input type="text" name="quantity" placeholder="Inserta el lote del producto"/>
+            <input type="text" name="serial" placeholder="Inserta el serial del producto"/>
+            <input type="text" name="type" placeholder="Inserta compra o venta"/>
+            <input type="text" name="price" placeholder="Inserta el precio de venta del producto"/>
+            <input type="text" name="descrpp" placeholder="Inserta la descripcion del producto"/><br><br>
             <button>Save</button>
 
           </form>
