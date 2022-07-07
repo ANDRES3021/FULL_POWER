@@ -57,8 +57,8 @@ def inventario_route():
     venta = "venta"
     cursor.execute("WITH productos_vendidos AS\
                   (SELECT id_product, serial_product\
-                  FROM consulta WHERE type_prod= 'venta'),\
-                  stock AS (SELECT *FROM consulta\
+                  FROM product WHERE type_prod= 'venta'),\
+                  stock AS (SELECT *FROM product\
                   WHERE(id_product, serial_product)\
                   NOT IN (SELECT * FROM productos_vendidos))\
                   SELECT id_product, COUNT(serial_product)\
@@ -140,7 +140,7 @@ def addproduct_route():
     typep = request.form['type']
     precio = request.form['price']
     descrpp = request.form['descrpp']
-    cursor.execute('INSERT INTO product (quantity, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
+    cursor.execute('INSERT INTO product (id_product, serial_product, type_prod, price, desc_product) VALUES(%s, %s, %s, %s, %s)',
     (quantity,ser_prod, typep, precio, descrpp))
     cursor.execute(f"""UPDATE product SET mov_id = (SELECT MAX(id_mov) FROM mov) WHERE serial_product = {ser_prod} AND type_prod = '{typep}'""")
     mysql.connection.commit()
