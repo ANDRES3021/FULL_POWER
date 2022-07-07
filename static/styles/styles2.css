@@ -10,11 +10,11 @@ body {
 }
 
 .contenedor {
-  width: 70%;
+  width: 60%;
   margin-left: 17%;
   margin-top: 2%;
   height: 88vh;
-  background: url(imagenes/tienda.jpg);
+  background: url(imagenes/STORE.png);
   background-repeat: no-repeat;
   background-size: 90%;
 }
