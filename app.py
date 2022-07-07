@@ -54,7 +54,6 @@ def inventario_route():
     """ Inventario """
     # venta = "venta"
     cursor = mysql.connection.cursor()
-    venta = "venta"
     cursor.execute("WITH productos_vendidos AS\
                   (SELECT id_product, serial_product\
                   FROM product WHERE type_prod= 'venta'),\
@@ -65,7 +64,6 @@ def inventario_route():
                   AS cantidad_productos\
                   FROM stock GROUP BY id_product")
     data = cursor.fetchall()
-    print(data)
     return render_template('forminventario.html',data=data)
 
 @app.route('/formventasdeldia.html')
