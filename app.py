@@ -38,8 +38,8 @@ def ventas_route():
     print(data)
     cursor.execute("WITH productos_vendidos AS\
                   (SELECT id_product, serial_product\
-                  FROM consulta WHERE type_prod= 'venta'),\
-                  stock AS (SELECT *FROM consulta\
+                  FROM product WHERE type_prod= 'venta'),\
+                  stock AS (SELECT *FROM product\
                   WHERE(id_product, serial_product)\
                   NOT IN (SELECT * FROM productos_vendidos))\
                   SELECT id_product, COUNT(serial_product)\
